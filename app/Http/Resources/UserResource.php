@@ -7,6 +7,9 @@ use App\Http\Resources\UserArtifactResource;
 
 class UserResource extends JsonResource
 {
+    /**
+     * @return list<string, mixed>
+     */
     public function toArray($request)
     {
         return [

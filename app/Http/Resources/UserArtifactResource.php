@@ -6,6 +6,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserArtifactResource extends JsonResource
 {
+    /**
+     * @return list<string, mixed>
+     */
     public function toArray($request)
     {
         return [

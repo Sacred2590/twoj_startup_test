@@ -31,6 +31,9 @@ class CreateUserRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return list<string, string>
+     */
     public function messages(): array
     {
         return [
