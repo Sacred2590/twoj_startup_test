@@ -22,8 +22,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var list<string>
      */
     protected $fillable = [
@@ -31,8 +29,14 @@ class User extends Authenticatable
         'surname'
     ];
 
+    /**
+     * @var list<string, class-string<\BackedEnum>>
+     */
     protected $with = ['artifacts'];
 
+    /**
+     * @return void
+     */
     protected static function booted(): void
     {
         static::created(function (User $user) {
@@ -40,11 +44,18 @@ class User extends Authenticatable
         });
     }
 
+    /**
+      *
+      * @return array<int, string>
+     */
     public function routeNotificationForMail(): array|string 
     {          
         return $this->artifacts()->allEmails()->pluck('artifact_value')->toArray();    
     }
 
+    /**
+     * @return HasMany<UserArtifact>
+     */
     public function artifacts(): HasMany
     {
         return $this->hasMany(UserArtifact::class)
