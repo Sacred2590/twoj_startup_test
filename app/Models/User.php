@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Notifications\WelcomeMail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  *
@@ -19,7 +20,7 @@ use App\Notifications\WelcomeMail;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * @var list<string>
@@ -41,6 +42,9 @@ class User extends Authenticatable
     {
         static::created(function (User $user) {
             $user->notify((new WelcomeMail())->delay(now()->addSeconds(5)));
+        });
+        static::deleted(function (User $user) {
+            $user->artifacts()->delete();
         });
     }
 
