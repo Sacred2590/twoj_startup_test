@@ -17,7 +17,7 @@ class SendUserCreatedNotification
      */
     public function handle(UserCreatedEvent $event): void
     {
-        $event->user->notifyNow((new WelcomeMail())->delay(now()->addSeconds(5)));
+        $event->user->notify((new WelcomeMail())->delay(now()->addSeconds(5)));
     }
 }
 

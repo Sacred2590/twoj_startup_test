@@ -26,6 +26,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    protected $dispatchesEvents = [
+        'created' => UserCreatedEvent::class,
+        'deleted' => UserDeletedEvent::class,
+    ];
+
     /**
      * @var list<string>
      */
@@ -38,19 +43,6 @@ class User extends Authenticatable
      * @var list<string, class-string<\BackedEnum>>
      */
     protected $with = ['artifacts'];
-
-    /**
-     * @return void
-     */
-    protected static function booted(): void
-    {
-        static::created(function (User $user) {
-            UserCreatedEvent::dispatch($user);
-        });
-        static::deleted(function (User $user) {
-            UserDeletedEvent::dispatch($user);
-        });
-    }
 
     /**
       *
