@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserArtifactResource;
 
 class UserResource extends JsonResource
 {
@@ -17,7 +16,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'surname' => $this->surname,
             'artifacts' => $this->whenLoaded('artifacts', function () {
-                return UserArtifactResource::collection($this->artifacts);
+               return $this->artifacts->toResourceCollection();
             }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

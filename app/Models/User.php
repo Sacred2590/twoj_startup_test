@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Notifications\WelcomeMail;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\UserCreatedEvent;
+use App\Events\UserDeletedEvent;
+use App\Http\Resources\UserResource;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
 
 /**
  *
@@ -18,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  */
+#[UseResource(UserResource::class)]
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
@@ -41,10 +45,10 @@ class User extends Authenticatable
     protected static function booted(): void
     {
         static::created(function (User $user) {
-            $user->notify((new WelcomeMail())->delay(now()->addSeconds(5)));
+            UserCreatedEvent::dispatch($user);
         });
         static::deleted(function (User $user) {
-            $user->artifacts()->delete();
+            UserDeletedEvent::dispatch($user);
         });
     }
 
@@ -53,7 +57,7 @@ class User extends Authenticatable
       * @return array<int, string>
      */
     public function routeNotificationForMail(): array|string 
-    {          
+    {         
         return $this->artifacts()->allEmails()->pluck('artifact_value')->toArray();    
     }
 

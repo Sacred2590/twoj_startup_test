@@ -6,6 +6,9 @@ use App\Enums\UserArtifactsEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Resources\UserArtifactResource;
+use Illuminate\Database\Eloquent\Attributes\UseResource;
+
 
 /**
  * @property int $id
@@ -17,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read User $user   
  */
+#[UseResource(UserArtifactResource::class)]
 class UserArtifact extends Model
 {
     use SoftDeletes;

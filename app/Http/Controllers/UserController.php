@@ -21,7 +21,7 @@ class UserController extends Controller
         $perPage = (int) request()->query('per_page', 15);
         $users = User::paginate($perPage);
         
-        return UserResource::collection($users);
+        return $users->toResourceCollection();
     }
 
     /**
@@ -31,16 +31,17 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request, CreateUserAction $action): UserResource
     {
-       return new UserResource($action->handle($request->validated()));
+       return $action->handle($request->validated())
+            ->toResource();
     }
 
     /**
      * @param User $user
      * @return UserResource
      */
-    public function show(User $user):UserResource
+    public function show(User $user): UserResource
     {
-       return new UserResource($user);
+       return $user->toResource();
     }
 
     /**
@@ -51,7 +52,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): UserResource
     {
-        return new UserResource($action->handle($request->validated(), $user));
+        return $action->handle($request->validated(), $user)
+                ->toResource();
     }
 
     /**

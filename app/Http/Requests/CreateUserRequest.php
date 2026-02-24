@@ -37,17 +37,18 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Name is required.',
-            'name.string' => 'Name must be a string.',
-            'name.max' => 'Name must not exceed 255 characters.',
-            'surname.required' => 'Surname is required.',
-            'surname.string' => 'Surname must be a string.',
-            'surname.max' => 'Surname must not exceed 255 characters.',
-            'artifacts.array' => 'Artifacts must be an array.',
-            'artifacts.*.artifact_name.string' => 'Artifact name must be a string.',
-            'artifacts.*.artifact_name.max' => 'Artifact name must not exceed 255 characters.',
-            'artifacts.*.artifact_value.string' => 'Artifact value must be a string.',
-            'artifacts.*.artifact_value.max' => 'Artifact value must not exceed 255 characters.',
+            'name.required' => 'error.name.required',
+            'name.string' => 'error.name.string',
+            'name.max' => 'error.name.max',
+            'surname.required' => 'error.surname.required',
+            'surname.string' => 'error.surname.string',
+            'surname.max' => 'error.surname.max',
+            'artifacts.array' => 'error.artifacts.array',
+            'artifacts.*.artifact_name.enum' => 'error.artifacts.artifact_name.name',
+            'artifacts.*.artifact_name.string' => 'error.artifacts.artifact_name.string',
+            'artifacts.*.artifact_name.max' => 'error.artifacts.artifact_name.max',
+            'artifacts.*.artifact_value.string' => 'error.artifacts.artifact_value.string',
+            'artifacts.*.artifact_value.max' => 'error.artifacts.artifact_value.max',
         ];
     }
 }
